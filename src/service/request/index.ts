@@ -1,11 +1,14 @@
 import axios from "axios"
 import { AxiosInstance } from "axios"
+import { ElLoading } from "element-plus"
+import "element-plus/theme-chalk/el-loading.css"
 
 import { MYRequestInterceptor, MYRequestConfig } from "./type"
 
 class MYRequest {
   instance: AxiosInstance
   interceptors?: MYRequestInterceptor
+  loading: any
 
   constructor(config: MYRequestConfig) {
     this.instance = axios.create(config)
@@ -24,6 +27,10 @@ class MYRequest {
     // 所有实例都有的拦截器
     this.instance.interceptors.request.use(
       (config) => {
+        this.loading = ElLoading.service({
+          lock: true,
+          text: "requesting data"
+        })
         return config
       },
       (err) => {
