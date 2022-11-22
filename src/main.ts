@@ -1,5 +1,4 @@
 import { createApp } from "vue"
-import "element-plus/theme-chalk/base.css"
 
 import App from "./App.vue"
 
@@ -12,7 +11,17 @@ app.use(router)
 app.use(store)
 app.mount("#app")
 
-myRequest.request({
+interface DataType {
+  data: any
+  returnCode: string
+  success: boolean
+}
+
+myRequest.request<DataType>({
   url: "/home/multidata",
   method: "GET"
+}).then(res => {
+  console.log(res.data)
+  console.log(res.returnCode)
+  console.log(res.success)
 })
