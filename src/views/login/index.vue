@@ -20,7 +20,7 @@ import Panel from "./components/Panel.vue"
     bottom: 0;
     left: 0;
     right: 0;
-    opacity: 0.6;
+    opacity: 0.7;
   }
   
   width: 100%;
