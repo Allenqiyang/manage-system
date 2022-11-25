@@ -1,0 +1,11 @@
+@baseUrl: "@/assets/images/";
+
+body {
+  margin: 0;
+}
+
+.bg(@url) {
+  background-image: ~"url(@{baseUrl}@{url}.jpg)";
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
