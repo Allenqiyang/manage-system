@@ -29,6 +29,7 @@
 import { ref, reactive } from 'vue'
 import type { FormInstance } from 'element-plus'
 
+import localCache from '@/utils/cache'
 import { accountRules } from '../config/login-rules'
 
 const formRef = ref<FormInstance>()
@@ -36,14 +37,20 @@ const formRef = ref<FormInstance>()
 const isRemember = ref(false)
 
 const account = reactive({
-  username: '',
-  password: ''
+  username: localCache.getCache('name') || '',
+  password: localCache.getCache('password') || ''
 })
 
 const confirmLogin = () => {
   formRef.value?.validate((valid) => {
     if(valid) {
-      console.log('login')
+      if(isRemember.value) {
+        localCache.setCache('name', account.username)
+        localCache.setCache('password', account.password)
+      } else {
+        localCache.deleteCache('name')
+        localCache.deleteCache('password')
+      }
     }
   })
 }
@@ -81,6 +88,8 @@ const confirmLogin = () => {
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
+    position: relative;
+    top: -5px;
   }
 
   .el-button {
