@@ -1,21 +1,50 @@
 import { defineStore } from "pinia"
+import router from "../router"
 
 import { IAccount } from "../service/login/types"
-import { accountLoginRequest } from "../service/login"
+import localCache from "../utils/cache"
+import { accountLogin, getUserInfo, getUserMenu } from "../service/login"
 
-const loginStore = defineStore('login', {
+const useLoginStore = defineStore('login', {
   state: () => {
     return {
       token: '',
-      userInfo: {}
+      userInfo: {},
+      userMenus: [] as any[]
     }
   },
   actions: {
     async accountLogin(payload: IAccount) {
-      const result = await accountLoginRequest(payload)
-      console.log(result)
+      const loginResult = await accountLogin(payload)
+      const {id, token} = loginResult.data
+      this.token = token
+      localCache.setCache('token', token)
+
+      const userInfoResult = await getUserInfo(id)
+      this.userInfo = userInfoResult.data
+      localCache.setCache('userInfo', userInfoResult.data)
+
+      const userMenuResult = await getUserMenu(id)
+      this.userMenus = userMenuResult.data
+      localCache.setCache('userMenu', userMenuResult.data)
+
+      router.push('/main')
+    },
+    loadLocalData() {
+      const token = localCache.getCache('token')
+      if(token) {
+        this.token = token
+      }
+      const userInfo = localCache.getCache('userInfo')
+      if(userInfo) {
+        this.userInfo = userInfo
+      }
+      const userMenus = localCache.getCache('userMenu')
+      if(userMenus) {
+        this.userMenus = userMenus
+      }
     }
   }
 })
 
-export default loginStore
+export default useLoginStore

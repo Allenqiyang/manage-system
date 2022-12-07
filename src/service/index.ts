@@ -1,4 +1,5 @@
 import MYRequest from "./request"
+import localCache from "../utils/cache"
 import { BASE_URL, TIME_OUT } from "./request/config"
 
 const myRequest = new MYRequest({
@@ -6,19 +7,19 @@ const myRequest = new MYRequest({
   timeout: TIME_OUT,
   interceptors: {
     requestInterceptor: (config) => {
-      console.log("request success intercept")
+      const token = localCache.getCache('token')
+      if(token) {
+        config.headers!.Authorization = `Bearer ${token}`
+      }
       return config
     },
     requestCatch: (err) => {
-      console.log("request failed intercept")
       return err
     },
     responseInterceptor: (config) => {
-      console.log("response success intercept")
       return config
     },
     responseCatch: (err) => {
-      console.log("response failed intercept")
       return err
     }
   }

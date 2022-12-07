@@ -10,10 +10,12 @@ class MYRequest {
   instance: AxiosInstance
   interceptors?: MYRequestInterceptor
   loading?: LoadingInstance
+  showLoading?: boolean
 
   constructor(config: MYRequestConfig) {
     this.instance = axios.create(config)
     this.interceptors = config.interceptors
+    this.showLoading = true
 
     // 从传参config中取出的拦截器
     this.instance.interceptors.request.use(
@@ -29,10 +31,12 @@ class MYRequest {
     // 所有实例都有的拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        this.loading = ElLoading.service({
-          lock: true,
-          text: "requesting data"
-        })
+        if(this.showLoading) {
+          this.loading = ElLoading.service({
+            lock: true,
+            text: "requesting data"
+          })
+        }
         return config
       },
       (err) => {
@@ -57,13 +61,20 @@ class MYRequest {
         config = config.interceptors.requestInterceptor(config)
       }
 
+      if(config.showLoading === false) {
+        this.showLoading = config.showLoading
+      }
+
       this.instance.request<any, T>(config).then((res) => {
         if (config.interceptors?.responseInterceptor) {
           res = config.interceptors.responseInterceptor(res)
         }
         resolve(res)
+        
+        this.showLoading = true
       }).catch((err) => {
         reject(err)
+        this.showLoading = true
         return err
       })
     })

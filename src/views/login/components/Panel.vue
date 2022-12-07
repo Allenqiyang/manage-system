@@ -9,8 +9,8 @@
         :rules="accountRules" 
         label-width="60px" 
       >
-        <el-form-item label="账户" prop="username">
-          <el-input v-model="account.username" type="text" size="large"/>
+        <el-form-item label="账户" prop="name">
+          <el-input v-model="account.name" type="text" size="large"/>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input v-model="account.password" type="password" autocomplete="off" size="large"/>
@@ -31,26 +31,30 @@ import type { FormInstance } from 'element-plus'
 
 import localCache from '@/utils/cache'
 import { accountRules } from '../config/login-rules'
+import useLoginStore from '@/store/login'
 
 const formRef = ref<FormInstance>()
 
 const isRemember = ref(false)
 
 const account = reactive({
-  username: localCache.getCache('name') || '',
+  name: localCache.getCache('name') || '',
   password: localCache.getCache('password') || ''
 })
 
+const login = useLoginStore()
 const confirmLogin = () => {
   formRef.value?.validate((valid) => {
     if(valid) {
       if(isRemember.value) {
-        localCache.setCache('name', account.username)
+        localCache.setCache('name', account.name)
         localCache.setCache('password', account.password)
       } else {
         localCache.deleteCache('name')
         localCache.deleteCache('password')
       }
+
+      login.accountLogin(account)
     }
   })
 }
