@@ -46,7 +46,7 @@ class MYRequest {
     this.instance.interceptors.response.use(
       (res) => {
         this.loading?.close()
-        return res.data
+        return res
       },
       (err) => {
         this.loading?.close()
@@ -55,7 +55,7 @@ class MYRequest {
     )
   }
 
-  request<T>(config: MYRequestConfig): Promise<T> {
+  request<T>(config: MYRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       if (config.interceptors?.requestInterceptor) {
         config = config.interceptors.requestInterceptor(config)
@@ -80,15 +80,15 @@ class MYRequest {
     })
   }
 
-  get<T>(config: MYRequestConfig): Promise<T> {
+  get<T>(config: MYRequestConfig<T>): Promise<T> {
     return this.request<T>({...config, method: "GET"})
   }
 
-  post<T>(config: MYRequestConfig): Promise<T> {
+  post<T>(config: MYRequestConfig<T>): Promise<T> {
     return this.request<T>({...config, method: "POST"})
   }
 
-  delete<T>(config: MYRequestConfig): Promise<T> {
+  delete<T>(config: MYRequestConfig<T>): Promise<T> {
     return this.request<T>({...config, method: "DELETE"})
   }
 }
