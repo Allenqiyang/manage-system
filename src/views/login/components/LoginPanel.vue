@@ -17,10 +17,6 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-    <div class="control">
-      <el-checkbox v-model="isRemember">记住密码</el-checkbox>
-      <el-link type="primary" :underline="false">忘记密码</el-link>
-    </div>
     <el-button size="large" type="primary" @click="confirmLogin">Submit</el-button>
   </div>
 </template>
@@ -31,7 +27,6 @@ import PhoneLogin from './PhoneLogin.vue'
 
 import { ref } from 'vue'
 
-const isRemember = ref(false)
 const accountRef = ref<InstanceType<typeof AccountLogin>>()
 
 const confirmLogin = () => {
@@ -43,7 +38,7 @@ const confirmLogin = () => {
 <style lang="less" scoped>
 .panel {
   width: 370px;
-  height: 340px;
+  padding-bottom: 20px;
   box-shadow: 0 0 25px #cac6c6;
   background-color: rgb(252, 252, 252);
   border-radius: 10px;
@@ -73,15 +68,6 @@ const confirmLogin = () => {
   .input-area {
     width: 300px;
     margin: 0 auto;
-  }
-
-  .control {
-    width: 300px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    top: -5px;
   }
 
   .el-button {

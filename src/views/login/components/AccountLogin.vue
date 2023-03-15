@@ -11,9 +11,19 @@
         <el-input v-model="account.username" type="text" size="large"/>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="account.password" type="password" autocomplete="off" size="large"/>
+        <el-input 
+          v-model="account.password" 
+          type="password" 
+          autocomplete="off" 
+          size="large" 
+          show-password
+        />
       </el-form-item>
     </el-form>
+    <div class="control">
+      <el-checkbox v-model="isRemember">记住密码</el-checkbox>
+      <el-link type="primary" :underline="false">忘记密码</el-link>
+    </div>
   </div>
 </template>
 
@@ -24,6 +34,8 @@ import type { FormInstance } from 'element-plus'
 import { accountRules } from '../config/login-rules'
 
 const formRef = ref<FormInstance>()
+
+const isRemember = ref(false)
 
 const account = reactive({
   username: '',
@@ -47,6 +59,15 @@ defineExpose({
 .account-login {
   .el-form-item {
     align-items: center;
+  }
+
+  .control {
+    width: 300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    top: -5px;
   }
 }
 </style>

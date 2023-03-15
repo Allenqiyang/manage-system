@@ -23,7 +23,12 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "indent": "off",
     "space-before-function-paren": 0,
-    "prettier/prettier": "off",
-    // "no-undef": "off"
+    "prettier/prettier": "off"
   },
+  globals: {
+    defineProps: "readonly",
+    defineEmits: "readonly",
+    defineExpose: "readonly",
+    withDefaults: "readonly"
+  }
 };
