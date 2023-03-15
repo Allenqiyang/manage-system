@@ -1,12 +1,12 @@
 <template>
   <div class="login">
     <div class="bg"></div>
-    <Panel />
+    <LoginPanel />
   </div>
 </template>
 
 <script lang="ts" setup>
-import Panel from "./components/Panel.vue"
+import LoginPanel from "./components/LoginPanel.vue"
 </script>
 
 <style lang="less" scoped>

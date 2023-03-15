@@ -1,5 +1,5 @@
 export const accountRules = {
-  name: [
+  username: [
     {
       required: true,
       message: '用户名不能为空',

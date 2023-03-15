@@ -31,8 +31,16 @@ const account = reactive({
 })
 
 const accountLogin = () => {
-  console.log('login')
+  formRef.value?.validate((valid) => {
+    if(valid) {
+      console.log("account login")
+    }
+  })
 }
+
+defineExpose({
+  accountLogin
+})
 </script>
 
 <style lang="less" scoped>

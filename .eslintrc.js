@@ -23,6 +23,7 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "indent": "off",
     "space-before-function-paren": 0,
-    "prettier/prettier": "off"
+    "prettier/prettier": "off",
+    // "no-undef": "off"
   },
 };
