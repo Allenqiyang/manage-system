@@ -1,10 +1,11 @@
 <template>
   <div class="nav-menu">
     <div class="head">
-      <span class="title">⛄ Allen's System</span>
+      <span class="title" :class="props.collapse ? '' : 'move-left'">{{ title }}</span>
     </div>
     <el-menu
       active-text-color="#ffd04b"
+      :collapse="props.collapse"
       background-color="#545c64"
       text-color="#fff"
       default-active="2"
@@ -14,7 +15,7 @@
           <el-sub-menu :index="String(item.id)">
             <template #title>
               <el-icon><component :is="icons[String(item.icon)]" /></el-icon>
-              {{ item.name }}
+              <span>{{ item.name }}</span>
             </template>
             <el-menu-item v-for="subitem in item.children" :key="subitem.id" :index="`${subitem.id}`">
               <span>{{ subitem.name }}</span>
@@ -24,7 +25,7 @@
         <template v-else>
           <el-menu-item>
             <el-icon v-if="item.icon"><component :is="item.icon" /></el-icon>
-            <span>{{ item.name }}</span>
+            <template #title>{{ item.name }}</template>
           </el-menu-item>
         </template>
       </template>
@@ -38,7 +39,15 @@ import useLoginStore from '@/store/login'
 
 const store = useLoginStore()
 const userMenus = computed(() => store.userMenus)
-userMenus.value.forEach(item => console.log(item))
+
+const props = defineProps({
+  collapse: Boolean
+})
+
+const title = computed(() => {
+  return props.collapse ? "⛄" : "⛄ Allen's System"
+})
+
 const icons: any = {
   "el-icon-monitor": "Monitor",
   "el-icon-setting": "Setting",
@@ -58,7 +67,7 @@ const icons: any = {
   height: 28px;
   padding: 12px 10px 8px 10px;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   overflow: hidden;
 
@@ -69,8 +78,11 @@ const icons: any = {
   .title {
     font-size: 16px;
     font-weight: 700;
-    // color: white;
+    color: #e9e9eb;
     white-space: nowrap;
+  }
+  .move-left {
+    margin-left: -10px;
   }
 }
 
