@@ -2,14 +2,14 @@
   <div class="panel">
     <p class="title">后台管理系统</p>
     <div class="input-area">
-      <el-tabs stretch>
-        <el-tab-pane>
+      <el-tabs stretch v-model="activeName">
+        <el-tab-pane name="user">
           <template #label>
             <span><el-icon><User /></el-icon> 账号登陆</span>
           </template>
           <AccountLogin ref="accountRef"/>
         </el-tab-pane>
-        <el-tab-pane>
+        <el-tab-pane name="phone">
           <template #label>
             <span><el-icon><Iphone /></el-icon> 手机登录</span>
           </template>
@@ -28,6 +28,9 @@ import PhoneLogin from './PhoneLogin.vue'
 import { ref } from 'vue'
 
 const accountRef = ref<InstanceType<typeof AccountLogin>>()
+
+const activeName = ref("user")
+console.log(activeName.value)
 
 const confirmLogin = () => {
   accountRef.value?.accountLogin()

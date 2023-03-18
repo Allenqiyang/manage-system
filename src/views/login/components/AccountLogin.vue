@@ -32,20 +32,24 @@ import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
 
 import { accountRules } from '../config/login-rules'
+import localCache from '@/utils/cache'
 
 const formRef = ref<FormInstance>()
 
 const isRemember = ref(false)
 
 const account = reactive({
-  username: '',
-  password: ''
+  username: localCache.getCache("username") ?? "",
+  password: localCache.getCache("password") ?? ""
 })
 
 const accountLogin = () => {
   formRef.value?.validate((valid) => {
     if(valid) {
-      console.log("account login")
+      if(isRemember.value) {
+        localCache.setCache("username", account.username)
+        localCache.setCache("password", account.password)
+      }
     }
   })
 }
