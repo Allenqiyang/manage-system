@@ -4,11 +4,30 @@
       <span class="title">⛄ Allen's System</span>
     </div>
     <el-menu
+      active-text-color="#ffd04b"
+      background-color="#545c64"
+      text-color="#fff"
       default-active="2"
-      @open="handleOpen"
-      @close="handleClose"
     >
-      <template v-for="item in userMenus" :id="item.id"></template>
+      <template v-for="item in userMenus" :key="item.id">
+        <template v-if="item.type === 1">
+          <el-sub-menu :index="String(item.id)">
+            <template #title>
+              <el-icon><component :is="icons[String(item.icon)]" /></el-icon>
+              {{ item.name }}
+            </template>
+            <el-menu-item v-for="subitem in item.children" :key="subitem.id" :index="`${subitem.id}`">
+              <span>{{ subitem.name }}</span>
+            </el-menu-item>
+          </el-sub-menu>
+        </template>
+        <template v-else>
+          <el-menu-item>
+            <el-icon v-if="item.icon"><component :is="item.icon" /></el-icon>
+            <span>{{ item.name }}</span>
+          </el-menu-item>
+        </template>
+      </template>
     </el-menu>
   </div>
 </template>
@@ -19,8 +38,14 @@ import useLoginStore from '@/store/login'
 
 const store = useLoginStore()
 const userMenus = computed(() => store.userMenus)
-const handleOpen = () => {console.log(1)}
-const handleClose = () => {console.log(1)}
+userMenus.value.forEach(item => console.log(item))
+const icons: any = {
+  "el-icon-monitor": "Monitor",
+  "el-icon-setting": "Setting",
+  "el-icon-goods": "Goods",
+  "el-icon-chat-line-round": "ChatLineRound"
+}
+
 </script>
 
 <style lang="less" scoped>
@@ -44,9 +69,13 @@ const handleClose = () => {console.log(1)}
   .title {
     font-size: 16px;
     font-weight: 700;
-    color: white;
+    // color: white;
     white-space: nowrap;
   }
+}
+
+:deep(.el-menu-item.is-active) {
+  background-color: rgb(67, 74, 80);
 }
 
 .el-menu {

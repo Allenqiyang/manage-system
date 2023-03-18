@@ -5,7 +5,9 @@
         <NavMenu />
       </el-aside>
       <el-container class="page">
-        <el-header class="page-header">Header</el-header>
+        <el-header class="page-header">
+          <NavHeader />
+        </el-header>
         <el-main class="page-content">Main</el-main>
       </el-container>
     </el-container>
@@ -13,7 +15,8 @@
 </template>
 
 <script lang="ts" setup>
-import NavMenu from '@/components/nav-menu'
+import NavMenu from "@/components/nav-menu"
+import NavHeader from "@/components/nav-header"
 </script>
 
 <style scoped lang="less">
@@ -33,8 +36,8 @@ import NavMenu from '@/components/nav-menu'
   overflow-x: hidden;
   overflow-y: auto;
   text-align: left;
-  background-color: #001529;
-  transition: width .3s linear;
+  background-color: #545c64;
+  // transition: width .3s linear;
   scrollbar-width: none;
   -ms-overflow-style: none;
 
