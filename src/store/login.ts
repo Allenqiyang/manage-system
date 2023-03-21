@@ -4,6 +4,7 @@ import router from "../router"
 import { IAccount } from "../service/login/types"
 import localCache from "../utils/cache"
 import { accountLogin, getUserInfo, getUserMenu } from "../service/login"
+import { mapMenusToRoutes } from "@/utils/mapMenus"
 
 const useLoginStore = defineStore('login', {
   state: () => {
@@ -26,6 +27,7 @@ const useLoginStore = defineStore('login', {
 
       const userMenuResult = await getUserMenu(id)
       this.userMenus = userMenuResult.data
+      mapMenusToRoutes(this.userMenus)
       localCache.setCache('userMenu', userMenuResult.data)
 
       router.push('/main')
@@ -42,6 +44,7 @@ const useLoginStore = defineStore('login', {
       const userMenus = localCache.getCache('userMenu')
       if(userMenus) {
         this.userMenus = userMenus
+        mapMenusToRoutes(userMenus)
       }
     }
   }

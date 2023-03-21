@@ -30,7 +30,6 @@ import { ref } from 'vue'
 const accountRef = ref<InstanceType<typeof AccountLogin>>()
 
 const activeName = ref("user")
-console.log(activeName.value)
 
 const confirmLogin = () => {
   accountRef.value?.accountLogin()

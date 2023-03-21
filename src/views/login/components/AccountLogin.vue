@@ -29,10 +29,11 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { FormInstance } from 'element-plus'
+import { ElMessage, FormInstance } from 'element-plus'
 
 import { accountRules } from '../config/login-rules'
 import localCache from '@/utils/cache'
+import useLoginStore from '@/store/login'
 
 const formRef = ref<FormInstance>()
 
@@ -43,13 +44,21 @@ const account = reactive({
   password: localCache.getCache("password") ?? ""
 })
 
+const loginStore = useLoginStore()
 const accountLogin = () => {
   formRef.value?.validate((valid) => {
     if(valid) {
       if(isRemember.value) {
         localCache.setCache("username", account.username)
         localCache.setCache("password", account.password)
+      } else {
+        localCache.deleteCache("username")
+        localCache.deleteCache("password")
       }
+      const username = account.username, password = account.password
+      loginStore.accountLogin({ name: username, password })
+    } else {
+      ElMessage.warning({ message: "输入的账号或密码不符合规则" })
     }
   })
 }
